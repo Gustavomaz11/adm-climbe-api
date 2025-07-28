@@ -1,23 +1,31 @@
-// mailer.js
-import nodemailer from 'nodemailer';
-import dotenv from 'dotenv';
-dotenv.config();
+import nodemailer from 'nodemailer'
+import dotenv from 'dotenv'
+dotenv.config()
 
-const transport = nodemailer.createTransport({
+export const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
-  port: process.env.SMTP_PORT,
+  port: parseInt(process.env.SMTP_PORT),
   secure: false,
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
   },
-});
+})
 
-export async function sendMail({ to, subject, html }) {
-  await transport.sendMail({
-    from: `"Climbe Portal" <${process.env.SMTP_USER}>`,
+export async function sendApprovalEmail(to, name) {
+  await transporter.sendMail({
+    from: `"Climbe Team" <${process.env.SMTP_USER}>`,
     to,
-    subject,
-    html,
-  });
+    subject: 'Sua solicitação foi aprovada!',
+    html: `<p>Olá <strong>${name}</strong>,<br/>Sua solicitação foi aprovada! Você já pode acessar o sistema.</p>`,
+  })
+}
+
+export async function sendRejectionEmail(to, name) {
+  await transporter.sendMail({
+    from: `"Climbe Team" <${process.env.SMTP_USER}>`,
+    to,
+    subject: 'Solicitação Reprovada',
+    html: `<p>Olá <strong>${name}</strong>,<br/>Infelizmente sua solicitação foi reprovada. Entre em contato para mais detalhes.</p>`,
+  })
 }
