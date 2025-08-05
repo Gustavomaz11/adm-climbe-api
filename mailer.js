@@ -16,8 +16,8 @@ export async function sendApprovalEmail(to, name) {
   await transporter.sendMail({
     from: `"Climbe Team" <${process.env.SMTP_USER}>`,
     to,
-    subject: 'Sua solicitação foi aprovada!',
-    html: `<p>Olá <strong>${name}</strong>,<br/>Sua solicitação foi aprovada! Você já pode acessar o sistema.</p>`,
+    subject: 'Sua solicitação está em analise!',
+    html: `<p>Olá <strong>${name}</strong>,<br/>Sua solicitação está em analise! Aguarde o prazo de 24 horas.</p>`,
   })
 }
 
